@@ -1,0 +1,31 @@
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const mongoose = require('mongoose');
+const cors = require('cors');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+app.use(cors());
+app.use(express.json());
+
+const PORT = process.env.PORT || 5000;
+
+mongoose.connect('mongodb://localhost/collab-task-manager', { useNewUrlParser: true, useUnifiedTopology: true });
+
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+});
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
