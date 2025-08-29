@@ -13,7 +13,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://localhost/collab-task-manager', { useNewUrlParser: true, useUnifiedTopology: true });
+// Connect to MongoDB and handle connection errors
+mongoose.connect('mongodb://localhost/collab-task-manager', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 app.get('/', (req, res) => {
   res.send('API is running...');
