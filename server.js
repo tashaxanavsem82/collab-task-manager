@@ -22,6 +22,12 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
+// Middleware for handling errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+
 io.on('connection', (socket) => {
   console.log('New client connected');
   socket.on('disconnect', () => {
